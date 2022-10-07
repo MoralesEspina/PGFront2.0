@@ -1,0 +1,184 @@
+<div class="wrapper">
+  <app-sidebar style="background: white !important;"></app-sidebar>
+
+  <div class="main">
+    <nav class="navbar navbar-expand navbar-theme">
+      <a class="sidebar-toggle d-flex mr-2">
+        <i class="hamburger align-self-center"></i>
+      </a>
+    </nav>
+    <main class="content">
+      <div class="container-fluid">
+
+        <div class="header">
+          <h1 class="header-title">
+            Clientes
+          </h1>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Dashboard</a></li>
+              <li class="breadcrumb-item"><a [routerLink]="['/clientes']">Clientes</a></li>
+              <li class="breadcrumb-item"*ngIf="editing == false" >Registar Cliente</li>
+              <li class="breadcrumb-item"*ngIf="editing == true" >Editar Cliente</li>
+            </ol>
+          </nav>
+        </div>
+        <div class = "row">
+          <div class = "col-12 col-lg-12" *ngIf="error_msg">
+            <div class = "alert alert-danger alert-dismissible" role="alert">
+              <div class = "alert-message">
+                {{error_msg}}
+              </div>
+              <button type="button" class = "close" (click)="error_alert()" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">x</span>
+              </button>
+            </div>
+          </div>
+          <div class = "col-12 col-lg-12" *ngIf="success_msg">
+            <div class = "alert alert-info alert-dismissible" role="alert">
+              <div class = "alert-message">
+                {{success_msg}}
+              </div>
+              <button type="button" class = "close" (click)="success_alert()" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">x</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 col-xl-12">
+            <form #clienteForm="ngForm">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="card-title" *ngIf="editing == false">Registro de Clientes</h5>
+                  <h5 class="card-title" *ngIf="editing == true">Datos del Clientes</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label><b>Nombre del Cliente</b></label>
+                        <input type="text" class="form-control" #name="ngModel" name="name"
+                          [(ngModel)]="cliente.name"placeholder="Ingrese Nombre del Cliente" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label><b>Número de Telefono</b></label>
+                        <input type="number" class="form-control" #phoneNumber="ngModel" name="phoneNumber"
+                          [(ngModel)]="cliente.phoneNumber" placeholder="Ingrese Número de Telefono" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label><b>Nit</b></label>
+                        <input type="number" class="form-control" #nit="ngModel" name="nit" [(ngModel)]="cliente.nit" placeholder="Ingrese Número de Nit" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label><b>Dirección</b></label>
+                        <input type="text" class="form-control" #direction="ngModel" name="direction"
+                          [(ngModel)]="cliente.direction" placeholder="Ingrese Dirección" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label><b>Latitud</b></label>
+                        <input type="text" id="latitude" class="form-control" #latitude="ngModel" name="latitude" [(ngModel)]="this.hlatitude" required readonly placeholder="{{this.hlatitude}}"  >
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label><b>Longitud</b></label>
+                        <input type="text" class="form-control" #length="ngModel" name="length" [(ngModel)]="this.hlength" required readonly placeholder="{{this.hlength}}"  >
+                      </div>
+                    </div>
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <label><b>Referencias</b></label>
+                        <input type="text" class="form-control" #references="ngModel" name="references"
+                          [(ngModel)]="cliente.references" placeholder="Ingrese Referencias" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button style="margin: 5px" type="submit" class="btn btn-primary" (click)="aggClient(clienteForm)" *ngIf="editing == false">Registrar Cliente</button>
+                  <button style="margin: 5px" type="submit" class="btn btn-primary" (click)="aggClient(clienteForm)" *ngIf="editing == true">Editar Cliente</button>
+                  <button style="margin: 5px" class="btn btn-primary" data-toggle="modal" data-target = "#modal-save-categoria">Mapa</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!--MODAL MAPA-->
+        <div class="modal fade" id="modal-save-categoria" tabindex="-1" role="dialog" style="display: none;"
+          aria-hidden="true">
+          <form #formCategoria="ngForm">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" *ngIf="editing == false">Registrar Ubicación</h5>
+                  <h5 class="modal-title" *ngIf="editing == true" >Editar Ubicación</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body m-1">
+                  <div class="col-lg-12">
+                    <div class="form-group">
+                      <div id="map" class="mapa-mapbox"></div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="form-group">
+                      <button type="button" class="btn btn-primary btn-block" (click)="getDirections()">Mostar Ruta</button>
+                    </div>
+                  </div>
+                  <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <input type="text" class = "form-control" readonly placeholder="Latitud: {{this.hlatitude}}" >
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <input type="text" class = "form-control" readonly placeholder="Longitud: {{this.hlength}}" >
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <input type="text" class = "form-control" readonly placeholder="Kilometros: {{this.lat}}" >
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <input type="text" class = "form-control" readonly placeholder="Minutos: {{this.lenght}}" >
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Registrar</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!--MODAL MAPA-->
+      </div>
+    </main>
+  </div>
+</div>

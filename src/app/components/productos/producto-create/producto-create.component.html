@@ -1,0 +1,97 @@
+<div class="wrapper">
+  <app-sidebar style="background: white !important;"></app-sidebar>
+
+  <div class="main">
+    <main class="content">
+    <div class="container-fluid">
+        <div class="header">
+            <h1 class="header-title">
+                Registro de Productos
+            </h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a [routerLink]="['/dashboard']"> Dashboard</a></li>
+                  <li class="breadcrumb-item"><a [routerLink]="['/productos']"> Productos</a></li>
+                  <li class="breadcrumb-item" *ngIf="editing == false" ><a> Registro de Productos</a></li>
+                  <li class="breadcrumb-item" *ngIf="editing == true" ><a> Edición de Productos</a></li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class = "row">
+          <div class = "col-12 col-lg-12" *ngIf="error_msg">
+            <div class = "alert alert-danger alert-dismissible" role="alert">
+              <div class = "alert-message">
+                {{error_msg}}
+              </div>
+              <button type="button" class = "close" (click)="error_alert()" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">x</span>
+              </button>
+            </div>
+          </div>
+          <div class = "col-12 col-lg-12" *ngIf="success_msg">
+            <div class = "alert alert-info alert-dismissible" role="alert">
+              <div class = "alert-message">
+                {{success_msg}}
+              </div>
+              <button type="button" class = "close" (click)="success_alert()" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">x</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+        <div class="card">
+          <div class = "card-header">
+            <h5 class = "card-title">Completa el Formulario</h5>
+            <h6 class = "card-subtitle text-muted">Productos</h6>
+          </div>
+          <div class="card-body">
+            <form #productoForm="ngForm"(ngSubmit)="aggProduct(productoForm)" >
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class = "form-label"><b>Titulo del producto</b></label>
+                    <input type="text" class="form-control" placeholder="Ingrese el Titulo del producto" #name="ngModel" name="name" [(ngModel)]="producto.name" required>
+                  </div>
+                </div>
+                <div class="col-lg-2">
+                  <div class = "form-group">
+                    <label class = "form-label"><b>Precio Compra</b></label>
+                    <input type="number" class="form-control" #purchase_price="ngModel" name="purchase_price" [(ngModel)]="producto.purchase_price"required>
+                  </div>
+                </div>
+                <div class="col-lg-2">
+                  <div class = "form-group">
+                    <label class = "form-label"><b>Precio de Venta</b></label>
+                    <input type="number" class="form-control" #sale_price="ngModel" name="sale_price" [(ngModel)]="producto.sale_price"required>
+                  </div>
+                </div>
+
+                <div class="col-lg-2" >
+                  <div class = "form-group" *ngIf="editing==false" >
+                    <label class = "form-label"><b>Stock</b></label>
+                    <input type="number" class="form-control" placeholder="0" #stock="ngModel" name="stock" [(ngModel)]="producto.stock"required>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class = "form-group">
+                    <label class = "form-label"><b>Categoria</b></label>
+                    <select class="form-control" #id_category="ngModel" name="id_category" [(ngModel)]="producto.id_category"required>
+                      <option value="" disabled>Seleccionar</option>
+                      <option value="{{item._id}}" *ngFor="let item of categorias">{{item.name}}</option>
+                    </select>
+                  </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" *ngIf="editing == false">Registrar</button>
+            <button type="submit" class="btn btn-primary" *ngIf="editing == true">Editar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</div>

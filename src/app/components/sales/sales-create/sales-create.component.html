@@ -1,0 +1,143 @@
+<div class="wrapper">
+  <app-sidebar style="background: white !important;"></app-sidebar>
+  <div class="main">
+    <nav class="navbar navbar-expand navbar-theme">
+      <a class="sidebar-toggle d-flex mr-2">
+        <i class="hamburger align-self-center"></i>
+      </a>
+    </nav>
+    <main class="content">
+      <div class="container-fluid">
+
+        <div class="header">
+          <h1 class="header-title">
+            Registrar Venta
+          </h1>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a [routerLink]="['/dashboard']"> Dashboard</a></li>
+              <li class="breadcrumb-item">Registro de Venta</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="row">
+
+          <div class="col-12 col-xl-12 form-group">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title"> Datos de la Venta</h5>
+              </div>
+              <div class="card-body">
+                <form #saleForm="ngForm" (ngSubmit)="aggSale(saleForm)">
+                  <div class="row">
+                    <div class="col-lg-4 form group">
+                      <label><b>Trabajador</b></label>
+                      <input type="text" class="form-control" readonly value = "{{identity.name}}">
+                    </div>
+                    <div class="col-lg-4 form group">
+                      <label><b>Clientes</b></label>
+                      <select name="" class="form-control" #id_client="ngModel" name="id_client" [(ngModel)]="venta.id_client">
+                        <option value="">SELECCIONAR</option>
+                        <option value="{{item._id}}" *ngFor="let item of clientes">{{item.name}}</option>
+                      </select>
+                    </div>
+                    <div class="col-lg-2 form-group">
+                      <label><b>*</b></label>
+                      <a [routerLink]="['/cliente/registrar']" class="btn btn-primary btn-block">Nuevo Cliente</a>
+                    </div>
+                    <div class="col-lg-2 form-group">
+                      <label><b>*</b></label>
+                      <button type="submit" class="btn btn-primary btn-block">Registrar Venta</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-12" *ngIf="error_message">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+              <div class="alert-message">
+                {{error_message}}
+              </div>
+
+              <button type="button" (click)="error_alert()" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">x</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="col-12 col-xl-12 form group">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title" >Detalles de la Venta</h5>
+              </div>
+              <div class="card-body">
+                <form #detailForm="ngForm" (ngSubmit)="save_detail(detailForm)">
+                  <div class="row">
+                    <div class="col-lg-4 form group">
+                      <label for=""><b>Productos</b></label>
+                      <select class="form-control" #id_product="ngModel" name="id_product"
+                        [(ngModel)]="detail.id_product" (change)="getProduct(detail.id_product)">
+                        <option value="" disabled>SELECCIONAR</option>
+                        <option value={{item._id}} *ngFor="let item of productos">{{item.name}} -
+                          {{item.id_category.name}}</option>
+                      </select>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                      <label for=""><b>Stock Actual</b></label>
+                      <input type="text" readonly class="form-control" value="{{producto.stock}}">
+                    </div>
+                    <div class="col-lg-3 form-group">
+                      <label for=""><b>Cantidad</b></label>
+                      <input type="text" #quantity="ngModel" name="quantity" [(ngModel)]="detail.quantity"
+                        class="form-control">
+                    </div>
+                    <div class="col-lg-2 form-group">
+                      <label><b>*</b></label>
+                      <button class="btn btn-primary btn-block" type="Submit">Agregar</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-xl-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title">Productos</h5>
+              </div>
+              <table class="table table-striped table-hover-sm">
+                <thead>
+                  <th style="text-align: center;">Eliminar</th>
+                  <th style="text-align: center;">Producto</th>
+                  <th style="text-align: center;">Precio</th>
+                  <th style="text-align: center;">Cantidad</th>
+                  <th style="text-align: center;">Subtotal</th>
+                </thead>
+                <tbody *ngFor="let item of data_detail; let idx = index" >
+                    <td style="text-align: center;"><button class="btn btn-danger btn-sm" (click)="delete(idx, item.sale_price,item.quantity)"><i class="fas fa-trash"></i></button></td>
+                    <td style="text-align: center;">{{item.name}}</td>
+                    <td style="text-align: center;">Q {{item.sale_price}}</td>
+                    <td style="text-align: center;">{{item.quantity}}</td>
+                    <td style="text-align: center;">Q {{(item.sale_price) * (item.quantity)}} </td>
+                </tbody>
+                <tfoot>
+                  <td style="text-align: center;"><b>Total</b></td>
+                  <td style="text-align: center;">-</td>
+                  <td style="text-align: center;">-</td>
+                  <td style="text-align: center;">-</td>
+                  <td style="text-align: center;">Q {{total}}</td>
+                </tfoot>
+              </table>
+              <div class="card-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+</div>

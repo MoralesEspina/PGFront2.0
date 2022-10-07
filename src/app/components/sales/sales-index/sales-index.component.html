@@ -1,0 +1,71 @@
+<div class="wrapper">
+  <app-sidebar style="background: white !important;"></app-sidebar>
+
+  <div class="main">
+    <nav class="navbar navbar-expand navbar-theme">
+      <a class="sidebar-toggle d-flex mr-2">
+        <i class="hamburger align-self-center"></i>
+      </a>
+    </nav>
+    <main class="content">
+      <div class="container-fluid">
+
+        <div class="header">
+          <h1 class="header-title">
+            Ventas
+          </h1>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a [routerLink]="['/dashboard']"> Dashboard</a></li>
+              <li class="breadcrumb-item">Ventas</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="row">
+          <div class="col-12 col-xl-12">
+            <div class="card">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <a class = "btn btn-primary" [routerLink]="['/ventas/registrar']" >Registrar Venta</a>
+                  </div>
+                </div>
+              </div>
+
+              <table class="table table-striped table-hover">
+                <thead >
+                  <tr>
+                    <th style="text-align: center;">Cliente</th>
+                    <th style="text-align: center;">Fecha</th>
+                    <th style="text-align: center;">Trabajador</th>
+                    <th style="text-align: center;">Opciones</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let item of sales | paginate: { itemsPerPage: 8, currentPage: p }">
+                    <td style="text-align: center;">{{item.id_client.name}}</td>
+                    <td style="text-align: center;">{{item.createdAt | date: 'MMM d, y, h:mm:ss a'}}</td>
+                    <td style="text-align: center;">{{item.id_user.name}}</td>
+
+                    <td style="text-align: center;">
+                      <div class="btn-group">
+                        <button type="button" class="btn mb-1 btn-secondary dropdown-toggle"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-cog"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                          <a class= "dropdown-item" [routerLink]="['/ventas/',item._id]">Detalle de Venta</a>
+                        </div>
+                      </div>
+                    </td>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+</div>

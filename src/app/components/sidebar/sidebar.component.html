@@ -1,0 +1,57 @@
+
+<div class="wrapper">
+  <nav id="sidebar" class="sidebar" style="background:b0b0b0 !important">
+    <a class="sidebar-brand">
+        Gas Danery
+      </a>
+    <div class="sidebar-content">
+      <div class="sidebar-user">
+        <img src="../../../assets/user.png" class="img-fluid rounded-circle mb-2">
+        <div class="font-weight-bold">{{identity.name}}</div>
+        <small>{{identity.id_rol.name.toUpperCase()}}</small>
+      </div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-header">
+          Menú
+        </li>
+        <li class="sidebar-item" routerLinkActive="sidebar-item active">
+          <a class="sidebar-link" [routerLink]="['/dashboard']"  >
+            <i class="align-middle mr-2 fas fa-fw fa-book"></i> <span class="align-middle">Dashboard</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item" routerLinkActive="sidebar-item active">
+          <a class="sidebar-link" [routerLink]="['/productos']"  >
+            <i class="align-middle mr-2 fas fa-fw fa-book"></i> <span class="align-middle">Productos</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item" routerLinkActive="sidebar-item active">
+          <a class="sidebar-link" [routerLink]="['/clientes']"  >
+            <i class="align-middle mr-2 fas fa-fw fa-book"></i> <span class="align-middle">Clientes</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item" routerLinkActive="sidebar-item active">
+          <a class="sidebar-link" [routerLink]="['/usuarios']"  >
+            <i class="align-middle mr-2 fas fa-fw fa-book"></i> <span class="align-middle">Usuarios</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item" routerLinkActive="sidebar-item active">
+          <a class="sidebar-link" [routerLink]="['/ventas']"  >
+            <i class="align-middle mr-2 fas fa-fw fa-book"></i> <span class="align-middle">Ventas</span>
+          </a>
+        </li>
+
+        <li class="sidebar-item">
+          <a class="sidebar-link" (click)="logOut()" >
+            <i class="align-middle mr-2 fas fa-fw fa-book"></i> <span class="align-middle">Cerrar Sesión</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+</div>
+

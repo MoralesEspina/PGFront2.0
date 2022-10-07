@@ -1,0 +1,116 @@
+<div class="wrapper">
+  <app-sidebar style="background: white !important;"></app-sidebar>
+
+  <div class="main">
+    <nav class="navbar navbar-expand navbar-theme">
+      <a class="sidebar-toggle d-flex mr-2">
+        <i class="hamburger align-self-center"></i>
+      </a>
+    </nav>
+    <main class="content">
+      <div class="container-fluid">
+
+        <div class="header">
+          <h1 class="header-title">
+            Usuarios
+          </h1>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a [routerLink]="['/dashboard']">Dashboard</a></li>
+              <li class="breadcrumb-item"><a [routerLink]="['/usuarios']">Usuarios</a></li>
+              <li class="breadcrumb-item"*ngIf="editing == false" >Registar Usuario</li>
+              <li class="breadcrumb-item"*ngIf="editing == true" >Editar Usuario</li>
+            </ol>
+          </nav>
+        </div>
+        <div class = "row">
+          <div class = "col-12 col-lg-12" *ngIf="error_msg">
+            <div class = "alert alert-danger alert-dismissible" role="alert">
+              <div class = "alert-message">
+                {{error_msg}}
+              </div>
+              <button type="button" class = "close" (click)="error_alert()" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">x</span>
+              </button>
+            </div>
+          </div>
+          <div class = "col-12 col-lg-12" *ngIf="success_msg">
+            <div class = "alert alert-info alert-dismissible" role="alert">
+              <div class = "alert-message">
+                {{success_msg}}
+              </div>
+              <button type="button" class = "close" (click)="success_alert()" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">x</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 col-xl-12">
+            <form #userForm="ngForm">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="card-title" *ngIf="editing == false">Registro de Usuarios</h5>
+                  <h5 class="card-title" *ngIf="editing == true">Datos del Usuario</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label><b>Nombre del Usuario</b></label>
+                        <input type="text" class="form-control" #name="ngModel" name="name"
+                          [(ngModel)]="usuario.name"placeholder="Ingrese Nombre" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label><b>Número de Telefono</b></label>
+                        <input type="number" class="form-control" #phoneNumber="ngModel" name="phoneNumber"
+                          [(ngModel)]="usuario.phoneNumber" placeholder="Ingrese Número de Telefono" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class = "form-group">
+                        <label class = "form-label"><b>Rol</b></label>
+                        <select class="form-control" #id_rol="ngModel" name="id_rol" [(ngModel)]="usuario.id_rol"required>
+                          <option value="" disabled>Seleccionar</option>
+                          <option value="{{item._id}}" *ngFor="let item of rols">{{item.name.toUpperCase()}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label><b>Nombre de Usuario</b></label>
+                        <input type="text" class="form-control" #username="ngModel" name="username" [(ngModel)]="usuario.username" placeholder="Ingrese Nombre de Usuario" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-3"*ngIf="editing == false">
+                      <div class="form-group">
+                        <label><b>Contraseña</b></label>
+                        <input type="password" class="form-control" #password="ngModel" name="password"
+                          [(ngModel)]="usuario.password" placeholder="Ingrese su Contraseña"required>
+                      </div>
+                    </div>
+                    <div class="col-lg-3"*ngIf="editing == true">
+                      <div class="form-group">
+                        <label><b>Contraseña</b></label>
+                        <input type="password" class="form-control" #password="ngModel" name="password"
+                          [(ngModel)]="this.new_password" placeholder="Ingrese su Nueva Contraseña">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button style="margin: 5px" type="submit" class="btn btn-primary" (click)="aggUser(userForm)" *ngIf="editing == false">Registrar Usuario</button>
+                  <button style="margin: 5px" type="submit" class="btn btn-primary" (click)="aggUser(userForm)" *ngIf="editing == true">Editar Usuario</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
